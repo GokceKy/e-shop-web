@@ -1,165 +1,215 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nexus — Product Catalog</title>
+  <base href="/e-shop-web/">
   <link rel="stylesheet" href="style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
 </head>
+
 <body>
 
-<!-- Toast Container -->
-<div id="toast-container" aria-live="polite"></div>
+  <!-- Toast Container -->
+  <div id="toast-container" aria-live="polite"></div>
 
-<!-- Sidebar -->
-<aside class="sidebar">
-  <div class="sidebar-logo">
-    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="28" height="28" rx="8" fill="#6366f1"/>
-      <path d="M7 14L14 7L21 14L14 21L7 14Z" fill="white"/>
-      <circle cx="14" cy="14" r="3" fill="#6366f1"/>
-    </svg>
-    <span class="logo-text">Nexus</span>
-  </div>
-
-  <nav class="sidebar-nav">
-    <a href="#catalog" class="nav-item active" data-section="catalog">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-      Catalog
-    </a>
-    <a href="#cart" class="nav-item" data-section="cart">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-      Cart
-      <span class="nav-badge" id="cart-badge" hidden>0</span>
-    </a>
-    <a href="#orders" class="nav-item" data-section="orders">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-      Orders
-    </a>
-  </nav>
-
-  <div class="sidebar-footer">
-    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
-      <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-      <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      <span>Theme</span>
-    </button>
-  </div>
-</aside>
-
-<!-- Main Content -->
-<main class="main">
-
-  <!-- Header -->
-  <header class="topbar">
-    <div class="topbar-left">
-      <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Menu">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-      </button>
-      <div>
-        <h1 class="page-title" id="page-title">Product Catalog</h1>
-        <p class="page-subtitle" id="page-subtitle">Browse and manage inventory</p>
-      </div>
-    </div>
-    <div class="topbar-right">
-      <div class="search-wrap" id="search-wrap">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="search" id="search-input" placeholder="Search products…" aria-label="Search products" />
-      </div>
-    </div>
-  </header>
-
-  <!-- ── CATALOG SECTION ── -->
-  <section id="section-catalog" class="section active">
-    <div class="stats-row" id="stats-row">
-      <div class="stat-card">
-        <span class="stat-label">Total Products</span>
-        <span class="stat-value" id="stat-total">—</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-label">In Stock</span>
-        <span class="stat-value green" id="stat-instock">—</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-label">Out of Stock</span>
-        <span class="stat-value red" id="stat-outstock">—</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-label">Cart Value</span>
-        <span class="stat-value" id="stat-cartval">$0.00</span>
-      </div>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="28" height="28" rx="8" fill="#6366f1" />
+        <path d="M7 14L14 7L21 14L14 21L7 14Z" fill="white" />
+        <circle cx="14" cy="14" r="3" fill="#6366f1" />
+      </svg>
+      <span class="logo-text">Nexus</span>
     </div>
 
-    <div class="filter-bar">
-      <button class="filter-btn active" data-cat="all">All</button>
-    </div>
+    <nav class="sidebar-nav">
+      <a href="#catalog" class="nav-item active" data-section="catalog">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7" />
+          <rect x="14" y="3" width="7" height="7" />
+          <rect x="3" y="14" width="7" height="7" />
+          <rect x="14" y="14" width="7" height="7" />
+        </svg>
+        Catalog
+      </a>
+      <a href="#cart" class="nav-item" data-section="cart">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="9" cy="21" r="1" />
+          <circle cx="20" cy="21" r="1" />
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+        </svg>
+        Cart
+        <span class="nav-badge" id="cart-badge" hidden>0</span>
+      </a>
+      <a href="#orders" class="nav-item" data-section="orders">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <polyline points="14 2 14 8 20 8" />
+          <line x1="16" y1="13" x2="8" y2="13" />
+          <line x1="16" y1="17" x2="8" y2="17" />
+        </svg>
+        Orders
+      </a>
+    </nav>
 
-    <div class="product-grid" id="product-grid">
-      <div class="loading-state">
-        <div class="spinner"></div>
-        <p>Loading products…</p>
-      </div>
-    </div>
-
-    <div class="empty-state hidden" id="empty-state">
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <p>No products match "<span id="empty-query"></span>"</p>
-    </div>
-  </section>
-
-  <!-- ── CART SECTION ── -->
-  <section id="section-cart" class="section">
-    <div class="panel">
-      <div class="panel-header">
-        <h2>Cart</h2>
-        <button class="btn-ghost small" id="clear-cart-btn">Clear all</button>
-      </div>
-      <div id="cart-list" class="cart-list">
-        <div class="empty-cart">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-          <p>Your cart is empty</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="panel checkout-panel">
-      <h2>Complete Sale</h2>
-      <div class="form-group">
-        <label for="customer-name">Customer Name</label>
-        <input type="text" id="customer-name" placeholder="Enter customer name…" autocomplete="off" />
-      </div>
-      <div class="cart-summary" id="cart-summary">
-        <div class="summary-row">
-          <span>Subtotal</span>
-          <span id="summary-subtotal">$0.00</span>
-        </div>
-        <div class="summary-row total">
-          <span>Total</span>
-          <span id="summary-total">$0.00</span>
-        </div>
-      </div>
-      <button class="btn-primary full-width" id="complete-sale-btn">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-        Complete Sale
+    <div class="sidebar-footer">
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2">
+          <circle cx="12" cy="12" r="5" />
+          <line x1="12" y1="1" x2="12" y2="3" />
+          <line x1="12" y1="21" x2="12" y2="23" />
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+          <line x1="1" y1="12" x2="3" y2="12" />
+          <line x1="21" y1="12" x2="23" y2="12" />
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+        </svg>
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </svg>
+        <span>Theme</span>
       </button>
     </div>
-  </section>
+  </aside>
 
-  <!-- ── ORDERS SECTION ── -->
-  <section id="section-orders" class="section">
-    <div class="panel">
-      <div class="panel-header">
-        <h2>Order History</h2>
-        <button class="btn-ghost small danger" id="clear-orders-btn">Clear history</button>
+  <!-- Main Content -->
+  <main class="main">
+
+    <!-- Header -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+        <div>
+          <h1 class="page-title" id="page-title">Product Catalog</h1>
+          <p class="page-subtitle" id="page-subtitle">Browse and manage inventory</p>
+        </div>
       </div>
-      <div id="orders-list" class="orders-list"></div>
-    </div>
-  </section>
+      <div class="topbar-right">
+        <div class="search-wrap" id="search-wrap">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input type="search" id="search-input" placeholder="Search products…" aria-label="Search products" />
+        </div>
+      </div>
+    </header>
 
-</main>
+    <!-- ── CATALOG SECTION ── -->
+    <section id="section-catalog" class="section active">
+      <div class="stats-row" id="stats-row">
+        <div class="stat-card">
+          <span class="stat-label">Total Products</span>
+          <span class="stat-value" id="stat-total">—</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">In Stock</span>
+          <span class="stat-value green" id="stat-instock">—</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Out of Stock</span>
+          <span class="stat-value red" id="stat-outstock">—</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Cart Value</span>
+          <span class="stat-value" id="stat-cartval">$0.00</span>
+        </div>
+      </div>
 
-<script src="script.js"></script>
+      <div class="filter-bar">
+        <button class="filter-btn active" data-cat="all">All</button>
+      </div>
+
+      <div class="product-grid" id="product-grid">
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <p>Loading products…</p>
+        </div>
+      </div>
+
+      <div class="empty-state hidden" id="empty-state">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <p>No products match "<span id="empty-query"></span>"</p>
+      </div>
+    </section>
+
+    <!-- ── CART SECTION ── -->
+    <section id="section-cart" class="section">
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Cart</h2>
+          <button class="btn-ghost small" id="clear-cart-btn">Clear all</button>
+        </div>
+        <div id="cart-list" class="cart-list">
+          <div class="empty-cart">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="9" cy="21" r="1" />
+              <circle cx="20" cy="21" r="1" />
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+            </svg>
+            <p>Your cart is empty</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel checkout-panel">
+        <h2>Complete Sale</h2>
+        <div class="form-group">
+          <label for="customer-name">Customer Name</label>
+          <input type="text" id="customer-name" placeholder="Enter customer name…" autocomplete="off" />
+        </div>
+        <div class="cart-summary" id="cart-summary">
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span id="summary-subtotal">$0.00</span>
+          </div>
+          <div class="summary-row total">
+            <span>Total</span>
+            <span id="summary-total">$0.00</span>
+          </div>
+        </div>
+        <button class="btn-primary full-width" id="complete-sale-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+          Complete Sale
+        </button>
+      </div>
+    </section>
+
+    <!-- ── ORDERS SECTION ── -->
+    <section id="section-orders" class="section">
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Order History</h2>
+          <button class="btn-ghost small danger" id="clear-orders-btn">Clear history</button>
+        </div>
+        <div id="orders-list" class="orders-list"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
 </body>
+
 </html>

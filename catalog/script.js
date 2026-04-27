@@ -66,20 +66,14 @@ const INLINE_PRODUCTS = [
 // Builds the correct URL regardless of GitHub Pages subfolder depth.
 // e.g. https://user.github.io/repo/catalog/ → fetches /repo/catalog/data/products.json
 function getJsonUrl() {
-  const base = document.currentScript
-    ? new URL(document.currentScript.src)          // script tag src as anchor
-    : new URL(window.location.href);               // fallback: page URL
-  // Strip filename if present (script.js → keep directory)
-  const dir = base.pathname.endsWith('.js')
-    ? base.pathname.replace(/\/[^/]+$/, '/')
-    : base.pathname.replace(/\/?$/, '/');
-  return `${base.origin}${dir}data/products.json`;
+  return './data/products.json';
 }
 
 async function loadProducts() {
   // Try fetching the JSON file first
   try {
     const url = getJsonUrl();
+    console.log("Hedeflenen JSON URL:", url); // Burayı kontrol et!
     const res = await fetch(url);
     if (!res.ok) throw new Error(`HTTP ${res.status} at ${url}`);
     state.products = await res.json();
