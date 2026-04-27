@@ -5,7 +5,7 @@
     "price": 249.99,
     "stock": 14,
     "images": [
-      "/images/headphones.jfif"
+      "/catalog/images/headphones.jfif"
     ],
     "category": "Audio",
     "description": "Studio-grade sound, 30hr battery"
