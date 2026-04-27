@@ -36,27 +36,66 @@ function toast(msg, type = 'info') {
   }, 3000);
 }
 
+// ── Base path resolver (survives any GitHub Pages subfolder) ──────────────
+// window.location.pathname for https://user.github.io/repo/catalog/ → "/repo/catalog/"
+const BASE_PATH = (() => {
+  let p = window.location.pathname;
+  if (!p.endsWith('/')) p = p.replace(/\/[^/]*$/, '/');
+  return p; // always ends with "/"
+})();
+
+function assetUrl(rel) {
+  if (!rel || rel.startsWith('http') || rel.startsWith('data:')) return rel;
+  // Strip any accidental leading "./"
+  return BASE_PATH + rel.replace(/^\.\//, '');
+}
+
+// ── Inline product data (fallback — always works on GitHub Pages) ──────────
+const INLINE_PRODUCTS = [
+  { id: "P001", name: "Wireless Noise-Cancel Headphones", price: 249.99, stock: 14, image: "images/headphones.svg", category: "Audio", description: "Studio-grade sound, 30hr battery" },
+  { id: "P002", name: "Mechanical Keyboard TKL", price: 139.00, stock: 7, image: "images/keyboard.svg", category: "Peripherals", description: "Cherry MX switches, RGB backlit" },
+  { id: "P003", name: "4K Webcam Pro", price: 199.00, stock: 0, image: "images/webcam.svg", category: "Video", description: "Auto-focus, built-in ring light" },
+  { id: "P004", name: "USB-C Hub 12-in-1", price: 79.99, stock: 23, image: "images/hub.svg", category: "Accessories", description: "4K HDMI, 100W PD, SD card" },
+  { id: "P005", name: "Ergonomic Mouse", price: 89.00, stock: 3, image: "images/mouse.svg", category: "Peripherals", description: "Vertical grip, silent clicks" },
+  { id: "P006", name: '27" 165Hz Monitor', price: 449.00, stock: 5, image: "images/monitor.svg", category: "Displays", description: "QHD IPS, 1ms response time" },
+  { id: "P007", name: "Smart LED Desk Lamp", price: 59.99, stock: 18, image: "images/lamp.svg", category: "Accessories", description: "Tunable color temp, USB-A port" },
+  { id: "P008", name: "Portable SSD 1TB", price: 109.00, stock: 0, image: "images/ssd.svg", category: "Storage", description: "1050MB/s read, shock-resistant" },
+];
+
 // ── Fetch products ─────────────────────────────────────────────────────────
+// Builds the correct URL regardless of GitHub Pages subfolder depth.
+// e.g. https://user.github.io/repo/catalog/ → fetches /repo/catalog/data/products.json
+function getJsonUrl() {
+  const base = document.currentScript
+    ? new URL(document.currentScript.src)          // script tag src as anchor
+    : new URL(window.location.href);               // fallback: page URL
+  // Strip filename if present (script.js → keep directory)
+  const dir = base.pathname.endsWith('.js')
+    ? base.pathname.replace(/\/[^/]+$/, '/')
+    : base.pathname.replace(/\/?$/, '/');
+  return `${base.origin}${dir}data/products.json`;
+}
+
 async function loadProducts() {
+  // Try fetching the JSON file first
   try {
-    const res = await fetch('/data/products.json');
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const url = getJsonUrl();
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`HTTP ${res.status} at ${url}`);
     state.products = await res.json();
-
-    // Seed live stock from loaded data
-    state.products.forEach(p => { state.stock[p.id] = p.stock; });
-
-    renderStats();
-    renderFilters();
-    renderCatalog();
+    console.log('✅ Loaded products from JSON file');
   } catch (err) {
-    productGrid.innerHTML = `
-      <div class="loading-state">
-        <p style="color:var(--red)">Failed to load products. Make sure data/products.json exists and the page is served over HTTP.</p>
-        <p style="font-size:0.8rem;color:var(--text-3);">${err.message}</p>
-      </div>`;
-    console.error('Load error:', err);
+    // Fall back to inline data — works 100% of the time on GitHub Pages
+    console.warn('⚠️ JSON fetch failed, using inline data:', err.message);
+    state.products = INLINE_PRODUCTS;
   }
+
+  // Seed live stock from loaded data
+  state.products.forEach(p => { state.stock[p.id] = p.stock; });
+
+  renderStats();
+  renderFilters();
+  renderCatalog();
 }
 
 // ── Stats ──────────────────────────────────────────────────────────────────
@@ -128,7 +167,7 @@ function renderCatalog() {
     return `
       <article class="product-card${oos ? ' out-of-stock' : ''}" data-id="${p.id}" style="animation-delay:${i * 30}ms">
         <div class="card-img-wrap">
-          <img src="${p.images?.[0]}" alt="${p.name}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 120%22><rect width=%22120%22 height=%22120%22 fill=%22%231e2637%22/><text x=%2260%22 y=%2265%22 text-anchor=%22middle%22 fill=%22%2364748b%22 font-size=%2224%22>📦</text></svg>'" />
+          <img src="${assetUrl(p.image)}" alt="${p.name}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 120%22><rect width=%22120%22 height=%22120%22 fill=%22%231e2637%22/><text x=%2260%22 y=%2265%22 text-anchor=%22middle%22 fill=%22%2364748b%22 font-size=%2224%22>📦</text></svg>'" />
         </div>
         <div class="card-body">
           <span class="card-category">${p.category || ''}</span>
