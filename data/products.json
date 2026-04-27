@@ -5,7 +5,7 @@
     "price": 249.99,
     "stock": 14,
     "images": [
-      "images/headphones.jfif"
+      "./images/headphones.jfif"
     ],
     "category": "Audio",
     "description": "Studio-grade sound, 30hr battery"
@@ -16,7 +16,7 @@
     "price": 139.00,
     "stock": 7,
     "images": [
-      "images/headphones2.jfif"
+      "./images/headphones2.jfif"
     ],
     "category": "Peripherals",
     "description": "Cherry MX switches, RGB backlit"
@@ -27,7 +27,7 @@
     "price": 199.00,
     "stock": 0,
     "images": [
-      "images/headphones3.jfif"
+      "./images/headphones3.jfif"
     ],
     "category": "Video",
     "description": "Auto-focus, built-in ring light"
