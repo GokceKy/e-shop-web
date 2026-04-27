@@ -1,0 +1,90 @@
+[
+  {
+    "id": "P001",
+    "name": "Wireless Noise-Cancel Headphones",
+    "price": 249.99,
+    "stock": 14,
+    "images": [
+      "images/headphones.jfif"
+    ],
+    "category": "Audio",
+    "description": "Studio-grade sound, 30hr battery"
+  },
+  {
+    "id": "P002",
+    "name": "Mechanical Keyboard TKL",
+    "price": 139.00,
+    "stock": 7,
+    "images": [
+      "images/headphones2.jfif"
+    ],
+    "category": "Peripherals",
+    "description": "Cherry MX switches, RGB backlit"
+  },
+  {
+    "id": "P003",
+    "name": "4K Webcam Pro",
+    "price": 199.00,
+    "stock": 0,
+    "images": [
+      "images/headphones3.jfif"
+    ],
+    "category": "Video",
+    "description": "Auto-focus, built-in ring light"
+  },
+  {
+    "id": "P004",
+    "name": "USB-C Hub 12-in-1",
+    "price": 79.99,
+    "stock": 23,
+    "images": [
+      "images/hub.svg"
+    ],
+    "category": "Accessories",
+    "description": "4K HDMI, 100W PD, SD card"
+  },
+  {
+    "id": "P005",
+    "name": "Ergonomic Mouse",
+    "price": 89.00,
+    "stock": 3,
+    "images": [
+      "images/mouse.svg"
+    ],
+    "category": "Peripherals",
+    "description": "Vertical grip, silent clicks"
+  },
+  {
+    "id": "P006",
+    "name": "27\" 165Hz Monitor",
+    "price": 449.00,
+    "stock": 5,
+    "images": [
+      "images/monitor.svg"
+    ],
+    "category": "Displays",
+    "description": "QHD IPS, 1ms response time"
+  },
+  {
+    "id": "P007",
+    "name": "Smart LED Desk Lamp",
+    "price": 59.99,
+    "stock": 18,
+    "images": [
+      "images/lamp.svg"
+    ],
+    "category": "Accessories",
+    "description": "Tunable color temp, USB-A port"
+  },
+  {
+    "id": "P008",
+    "name": "Portable SSD 1TB",
+    "price": 109.00,
+    "stock": 0,
+    "images": [
+      "images/ssd.svg"
+    ],
+    "category": "Storage",
+    "description": "1050MB/s read, shock-resistant"
+  }
+]
