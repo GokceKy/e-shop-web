@@ -412,6 +412,74 @@ $('theme-toggle').addEventListener('click', () => {
   const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
   document.documentElement.setAttribute('data-theme', next);
 });
+function downloadFile(filename, content, type = 'text/plain') {
+  const element = document.createElement('a');
+  element.setAttribute('href', `data:${type};charset=utf-8,` + encodeURIComponent(content));
+  element.setAttribute('download', filename);
 
+  document.body.appendChild(element);
+  element.click();
+  document.body.removeChild(element);
+}
+
+function generateOrderText() {
+  if (!state.orders.length) return 'No orders yet';
+
+  return state.orders.map(order => {
+    let items = order.items.map(i => `${i.name} x${i.qty}`).join('\n');
+
+    return `
+Order ID: ${order.id}
+Customer: ${order.customer}
+Date: ${order.date}
+
+Items:
+${items}
+
+Total: $${order.total}
+-----------------------------
+`;
+  }).join('\n');
+}
+
+// TXT butonu
+document.getElementById('download-txt-btn').addEventListener('click', () => {
+  const text = generateOrderText();
+  downloadFile('orders.txt', text);
+});
+document.getElementById('download-pdf-btn').addEventListener('click', () => {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  let y = 10;
+
+  if (!state.orders.length) {
+    doc.text("No orders yet", 10, y);
+  } else {
+    state.orders.forEach(order => {
+      doc.text(`Order: ${order.id}`, 10, y); y += 6;
+      doc.text(`Customer: ${order.customer}`, 10, y); y += 6;
+      doc.text(`Date: ${order.date}`, 10, y); y += 6;
+
+      doc.text("Items:", 10, y); y += 6;
+
+      order.items.forEach(i => {
+        doc.text(`- ${i.name} x${i.qty}`, 12, y);
+        y += 6;
+      });
+
+      doc.text(`Total: $${order.total}`, 10, y);
+      y += 10;
+
+      // sayfa taşarsa yeni sayfa
+      if (y > 270) {
+        doc.addPage();
+        y = 10;
+      }
+    });
+  }
+
+  doc.save("orders.pdf");
+});
 // ── Init ───────────────────────────────────────────────────────────────────
 loadProducts();
