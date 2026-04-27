@@ -66,14 +66,20 @@ const INLINE_PRODUCTS = [
 // Builds the correct URL regardless of GitHub Pages subfolder depth.
 // e.g. https://user.github.io/repo/catalog/ → fetches /repo/catalog/data/products.json
 function getJsonUrl() {
-  return './data/products.json';
+  const base = document.currentScript
+    ? new URL(document.currentScript.src)          // script tag src as anchor
+    : new URL(window.location.href);               // fallback: page URL
+  // Strip filename if present (script.js → keep directory)
+  const dir = base.pathname.endsWith('.js')
+    ? base.pathname.replace(/\/[^/]+$/, '/')
+    : base.pathname.replace(/\/?$/, '/');
+  return `${base.origin}${dir}data/products.json`;
 }
 
 async function loadProducts() {
   // Try fetching the JSON file first
   try {
     const url = getJsonUrl();
-    console.log("Hedeflenen JSON URL:", url); // Burayı kontrol et!
     const res = await fetch(url);
     if (!res.ok) throw new Error(`HTTP ${res.status} at ${url}`);
     state.products = await res.json();
@@ -161,7 +167,7 @@ function renderCatalog() {
     return `
       <article class="product-card${oos ? ' out-of-stock' : ''}" data-id="${p.id}" style="animation-delay:${i * 30}ms">
         <div class="card-img-wrap">
-          <img src="${assetUrl(p.images ? p.images[0] : p.image)}" alt="${p.name}" alt="${p.name}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 120%22><rect width=%22120%22 height=%22120%22 fill=%22%231e2637%22/><text x=%2260%22 y=%2265%22 text-anchor=%22middle%22 fill=%22%2364748b%22 font-size=%2224%22>📦</text></svg>'" />
+          <img src="${assetUrl(p.images ? p.images[0] : p.image)}" alt="${p.name}"" alt="${p.name}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 120%22><rect width=%22120%22 height=%22120%22 fill=%22%231e2637%22/><text x=%2260%22 y=%2265%22 text-anchor=%22middle%22 fill=%22%2364748b%22 font-size=%2224%22>📦</text></svg>'" />
         </div>
         <div class="card-body">
           <span class="card-category">${p.category || ''}</span>
