@@ -167,7 +167,7 @@ function renderCatalog() {
     return `
       <article class="product-card${oos ? ' out-of-stock' : ''}" data-id="${p.id}" style="animation-delay:${i * 30}ms">
         <div class="card-img-wrap">
-          <img src="${assetUrl(p.image)}" alt="${p.name}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 120%22><rect width=%22120%22 height=%22120%22 fill=%22%231e2637%22/><text x=%2260%22 y=%2265%22 text-anchor=%22middle%22 fill=%22%2364748b%22 font-size=%2224%22>📦</text></svg>'" />
+          <img src="${assetUrl(p.images ? p.images[0] : p.image)}" alt="${p.name}" alt="${p.name}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 120%22><rect width=%22120%22 height=%22120%22 fill=%22%231e2637%22/><text x=%2260%22 y=%2265%22 text-anchor=%22middle%22 fill=%22%2364748b%22 font-size=%2224%22>📦</text></svg>'" />
         </div>
         <div class="card-body">
           <span class="card-category">${p.category || ''}</span>
